@@ -137,7 +137,7 @@ variable "aws_eks_instance_type" {
   description = "AWS EKS Node Group instance type."
   type        = list(string)
 # default     = ["m5a.large"]
-  default     = ["t2.small"]
+  default     = ["t2.medium"]
 }
 
 # valid aws eks versions are: 1.18, 1.19, 1.20, and 1.21.
