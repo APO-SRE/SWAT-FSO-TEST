@@ -351,22 +351,3 @@ resource "null_resource" "kubectl_trigger" {
     command = "aws eks --region ${var.aws_region} update-kubeconfig --name ${local.cluster_name}"
   }
 }
-
-resource "null_resource" "ansible_trigger" {
-  # fire the ansible trigger when the ec2 vm instance requires re-provisioning.
-  triggers = {
-    ec2_instance_ids = module.vm.id
-  }
-
-  # execute the following 'local-exec' provisioners each time the trigger is invoked.
-  # generate the ansible aws hosts inventory using 'cat' and Heredoc.
-  provisioner "local-exec" {
-    working_dir = "."
-    command     = <<EOD
-cat <<EOF > aws_hosts.inventory
-[fso_lab_vm]
-${module.vm.public_dns}
-EOF
-EOD
-  }
-}

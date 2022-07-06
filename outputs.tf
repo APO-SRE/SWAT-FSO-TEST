@@ -34,16 +34,6 @@ output "aws_ec2_access_role_arn" {
   value       = aws_iam_role.ec2_access_role.arn
 }
 
-output "public_ips" {
-  description = "List of public IP addresses assigned to the instances."
-  value       = module.vm.public_ip
-}
-
-output "public_dns" {
-  description = "List of public DNS names assigned to the instances."
-  value       = module.vm.public_dns
-}
-
 output "aws_vpc_id" {
   description = "The ID of the FSO Lab VPC."
   value       = module.vpc.vpc_id
