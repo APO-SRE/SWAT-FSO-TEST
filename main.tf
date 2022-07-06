@@ -182,35 +182,6 @@ module "security_group" {
   number_of_computed_ingress_with_cidr_blocks = 2
 }
 
-module "vm" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = ">= 3.5"
-
-  name                 = local.vm_name
-  ami                  = data.aws_ami.fso_lab_ami.id
-  instance_type        = var.aws_ec2_instance_type
-  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.id
-  key_name             = var.aws_ec2_ssh_pub_key_name
-
-  tags = local.resource_tags
-
-  subnet_id                   = tolist(module.vpc.public_subnets)[0]
-  vpc_security_group_ids      = [module.security_group.security_group_id]
-  associate_public_ip_address = true
-
-  user_data_base64 = base64encode(templatefile("${path.module}/templates/user-data-sh.tmpl", {
-    aws_ec2_user_name      = var.aws_ec2_user_name
-    aws_ec2_hostname       = "${local.lab_hostname_prefix}-vm"
-    aws_ec2_domain         = var.aws_ec2_domain
-    aws_region_name        = var.aws_region
-    use_aws_ec2_num_suffix = "true"
-    aws_eks_cluster_name   = local.cluster_name
-    iks_cluster_name       = "${local.lab_resource_prefix}-IKS"
-    iks_kubeconfig_file    = "${local.lab_resource_prefix}-IKS-kubeconfig.yml"
-    lab_number             = var.lab_number
-  }))
-}
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "= 17.24"

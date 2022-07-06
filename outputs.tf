@@ -163,3 +163,28 @@ output "resource_event_tag" {
   description = "Resource event tag."
   value       = var.resource_event_tag
 }
+
+output "vm_sg" {
+  description = "Security group attached to VM."
+  value       = module.security_group.security_group_id
+}
+
+output "vm_instance_profile" {
+  description = "instance profile attached to VM ."
+  value       = aws_iam_instance_profile.ec2_instance_profile.id
+}
+
+output "random_suffix" {
+  description = "random Suffix generated."
+  value       = lower(random_string.suffix.result)
+}
+
+output "lab_prefix" {
+  description = "random Suffix generated."
+  value       = local.lab_resource_prefix
+}
+
+output "lab_number" {
+  description = "random Suffix generated."
+  value       = var.lab_number
+}
